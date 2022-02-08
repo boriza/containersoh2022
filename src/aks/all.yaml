@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tripviewer
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+    spec:
+      containers:
+      - name: tripviewer
+        image: registryouw8848.azurecr.io/tripviewer:1.0
+        env:
+        - name: TRIPS_API_ENDPOINT
+          value: "http://endpoint"
+        - name: USERPROFILE_API_ENDPOINT
+          value: "http://endpoint"
+        ports:
+        - containerPort: 80
+          name: tripviewer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer-service
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: tripviewer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: poi
+  template:
+    metadata:
+      labels:
+        app: poi
+    spec:
+      containers:
+      - name: poi
+        image: registryouw8848.azurecr.io/poi:1.0
+        env:
+        - name: SQL_USER
+          value: sqladminoUw8848
+        - name: SQL_PASSWORD
+          value: aX0tg6Ya3
+        - name: SQL_SERVER
+          value: sqlserverouw8848.database.windows.net
+        - name: SQL_DBNAME
+          value: mydrivingDB
+        - name: WEB_PORT
+          value: "80"
+        - name: WEB_SERVER_BASE_URI
+          value: "http://0.0.0.0"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: CONFIG_FILES_PATH
+          value: "/secrets"
+        ports:
+        - containerPort: 80
+          name: poi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi-service
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: poi
