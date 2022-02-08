@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: "oh3-22fe"
+    labels:
+        app: "oh3-22fe"
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+    rules:
+        - host: oh2022-oh3-22fe.1ed5954d40fb40d59c19.australiaeast.aksapp.io
+          http:
+            paths:
+            - path: /
+              backend:
+                serviceName: "oh3-22fe"
+                servicePort: 80

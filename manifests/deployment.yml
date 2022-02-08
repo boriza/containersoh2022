@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "oh3-22fe"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "oh3-22fe"
+  template:
+    metadata:
+      labels:
+        app: "oh3-22fe"
+    spec:
+      containers:
+        - name: "oh3-22fe"
+          image: "registryouw8848.azurecr.io/oh3"
+          ports:
+          - containerPort: 80
