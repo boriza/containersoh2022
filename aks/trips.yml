@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tripsapp
+  template:
+    metadata:
+      labels:
+        app: tripsapp
+    spec:
+      containers:
+      - name: tripsapp
+        image: registryouw8848.azurecr.io/trips:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          value: "sqladminoUw8848"
+        - name: SQL_PASSWORD
+          value: "aX0tg6Ya3"
+        - name: SQL_SERVER
+          value: "sqlserverouw8848.database.windows.net"
+        - name: SQL_DBNAME
+          value: "mydrivingDB"
+        - name: DEBUG_LOGGING
+          value: "false"
+        - name: PORT
+          value: "80"
+        - name: OPENAPI_DOCS_URI
+          value: "http://changeme"
+        - name: CONFIG_FILES_PATH
+          value: "/secrets"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripsservice
+spec:
+  type: ClusterIP
+  selector:
+    app: tripsapp
+  ports:
+  - port: 80
+    targetPort: 80
+

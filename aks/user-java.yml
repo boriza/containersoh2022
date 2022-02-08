@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-java-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-javaapp
+  template:
+    metadata:
+      labels:
+        app: user-javaapp
+    spec:
+      containers:
+      - name: user-javaapp
+        image: registryouw8848.azurecr.io/user-java:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          value: "sqladminoUw8848"
+        - name: SQL_PASSWORD
+          value: "aX0tg6Ya3"
+        - name: SQL_SERVER
+          value: "sqlserverouw8848.database.windows.net"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-javaservice
+spec:
+  type: ClusterIP
+  selector:
+    app: user-javaapp
+  ports:
+  - port: 80
+    targetPort: 80
+

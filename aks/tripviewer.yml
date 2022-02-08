@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tripviewerapp
+  template:
+    metadata:
+      labels:
+        app: tripviewerapp
+    spec:
+      containers:
+      - name: tripviewerapp
+        image: registryouw8848.azurecr.io/tripviewer:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: TRIPS_API_ENDPOINT
+          value: "http://tripsservice"
+        - name: USERPROFILE_API_ENDPOINT
+          value: "http://userprofileservice"
+       
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewerservice
+spec:
+  type: LoadBalancer
+  selector:
+    app: tripviewerapp
+  ports:
+  - port: 80
+    targetPort: 80
+
