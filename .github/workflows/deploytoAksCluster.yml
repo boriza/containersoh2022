@@ -1,0 +1,51 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: registryouw8848.azurecr.io
+        username: ${{ secrets.acr_registryouw8848_username }}
+        password: ${{ secrets.acr_registryouw8848_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/.devcontainer" -f  ".devcontainer/Dockerfile" -t registryouw8848.azurecr.io/oh3:${{ github.sha }} --label dockerfile-path=.devcontainer/Dockerfile
+        docker push registryouw8848.azurecr.io/oh3:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_oh3_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep oh2022 | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace oh2022`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: oh2022
+        container-registry-url: registryouw8848.azurecr.io
+        container-registry-username: ${{ secrets.acr_registryouw8848_username }}
+        container-registry-password: ${{ secrets.acr_registryouw8848_password }}
+        secret-name: oh3dockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: oh2022
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+          manifests/ingress.yml
+        images: |
+          registryouw8848.azurecr.io/oh3:${{ github.sha }}
+        imagepullsecrets: |
+          oh3dockerauth
