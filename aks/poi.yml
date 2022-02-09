@@ -23,12 +23,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: sql-user
-              key: sql-user
+              key: SQL_USER
         - name: SQL_PASSWORD
           valueFrom:
             secretKeyRef:
               name: sql-password
-              key: sql-password
+              key: SQL_PASSWORD
         - name: SQL_SERVER
           value: "sqlserverouw8848.database.windows.net"
         - name: SQL_DBNAME
@@ -41,13 +41,6 @@ spec:
           value: "http://0.0.0.0"
         - name: CONFIG_FILES_PATH
           value: "/secrets"
-      volumes:
-      - name: secrets-store01-inline
-        csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "azure-sync"
 ---
 
 apiVersion: v1
