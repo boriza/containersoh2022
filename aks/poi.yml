@@ -22,13 +22,13 @@ spec:
         - name: SQL_USER
           valueFrom:
             secretKeyRef:
-              name: sql-user
-              key: SQL_USER
+              name: kvsqluser
+              key: sql-user
         - name: SQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: sql-password
-              key: SQL_PASSWORD
+              name: kvsqlpassword
+              key: sql-password
         - name: SQL_SERVER
           value: "sqlserverouw8848.database.windows.net"
         - name: SQL_DBNAME
@@ -41,6 +41,18 @@ spec:
           value: "http://0.0.0.0"
         - name: CONFIG_FILES_PATH
           value: "/secrets"
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-challenge5kv-msi"
+
 ---
 
 apiVersion: v1
