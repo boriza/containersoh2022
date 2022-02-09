@@ -19,10 +19,10 @@ spec:
         - containerPort: 80
         env:
         - name: SQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: sql-user
-                key: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: sql-user
+              key: SQL_USER
         - name: SQL_PASSWORD
           value: "aX0tg6Ya3"
         - name: SQL_SERVER
