@@ -33,7 +33,7 @@ metadata:
   name: api-edit
   namespace: api
 rules:
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["*"]
   verbs: ["*"]
 
@@ -45,7 +45,7 @@ metadata:
   name: api-view
   namespace: api
 rules:
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["*"]
   verbs: ["list", "get", "watch"]
 
