@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: api
+
+---
+
+kind: Secret
+apiVersion: v1
+metadata:
+  name: sql-user
+  namespace: api
+data:
+  SQL_USER: c3FsYWRtaW5vVXc4ODQ4
+type: Opaque
+
+---
+
+kind: Secret
+apiVersion: v1
+metadata:
+  name: sql-password
+  namespace: api
+data:
+  SQL_PASSWORD: YVgwdGc2WWEz
+type: Opaque
