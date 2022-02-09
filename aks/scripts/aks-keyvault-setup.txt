@@ -1,0 +1,6 @@
+# set policy to access keys in your key vault
+az keyvault set-policy -n challenge5kv --key-permissions get --spn 09d150e5-af03-4e9f-b63d-3e2a67d7f2eb
+# set policy to access secrets in your key vault
+az keyvault set-policy -n challenge5kv --secret-permissions get --spn 09d150e5-af03-4e9f-b63d-3e2a67d7f2eb
+# set policy to access certs in your key vault
+az keyvault set-policy -n challenge5kv --certificate-permissions get --spn 09d150e5-af03-4e9f-b63d-3e2a67d7f2eb

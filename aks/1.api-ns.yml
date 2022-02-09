@@ -4,23 +4,27 @@ metadata:
   name: api
 
 ---
-
-kind: Secret
-apiVersion: v1
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
 metadata:
-  name: sql-user
+  name: azure-kvname-user-msi
   namespace: api
-data:
-  SQL_USER: c3FsYWRtaW5vVXc4ODQ4
-type: Opaque
-
----
-
-kind: Secret
-apiVersion: v1
-metadata:
-  name: sql-password
-  namespace: api
-data:
-  SQL_PASSWORD: YVgwdGc2WWEz
-type: Opaque
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"
+    useVMManagedIdentity: "true"          # Set to true for using managed identity
+    userAssignedIdentityID: 09d150e5-af03-4e9f-b63d-3e2a67d7f2eb   # Set the clientID of the user-assigned managed identity to use
+    keyvaultName: challenge5kv        # Set to the name of your key vault
+    cloudName: ""                         # [OPTIONAL for Azure] if not provided, the Azure environment defaults to AzurePublicCloud
+    objects:  |
+      array:
+        - |
+          objectName: sql-user
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: sql-password
+          objectType: secret
+          objectVersion: ""
+    tenantId: c675cb6d-cbef-4abd-b8e7-f70a99137c2f               # The tenant ID of the key vault
