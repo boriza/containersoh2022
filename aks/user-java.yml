@@ -19,9 +19,15 @@ spec:
         - containerPort: 80
         env:
         - name: SQL_USER
-          value: "sqladminoUw8848"
+          valueFrom:
+            secretKeyRef:
+              name: sql-user
+              key: SQL_USER
         - name: SQL_PASSWORD
-          value: "aX0tg6Ya3"
+          valueFrom:
+            secretKeyRef:
+              name: sql-password
+              key: SQL_PASSWORD
         - name: SQL_SERVER
           value: "sqlserverouw8848.database.windows.net"
 ---
