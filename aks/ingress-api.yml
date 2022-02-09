@@ -8,8 +8,7 @@ metadata:
     nginx.org/mergeable-ingress-type: "minion"
 spec:
   rules:
-  - host: hackerteamone.com
-    http:
+   - http:
       paths:
       - path: "/api/poi"
         pathType: Prefix
