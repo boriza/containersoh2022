@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-api
+  namespace: api
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "minion"
+spec:
+  rules:
+  - host: hackerteamone.com
+    http:
+      paths:
+      - path: "/api/poi"
+        pathType: Prefix
+        backend:
+          service:
+            name: poiservice
+            port: 
+              number: 80
+      - path: "/api/trips"
+        pathType: Prefix
+        backend:
+          service:
+            name: tripsservice
+            port: 
+              number: 80
+      - path: "/api/user"
+        pathType: Prefix
+        backend:
+          service:
+            name: userprofileservice
+            port: 
+              number: 80
+      - path: "/api/user-java"
+        pathType: Prefix
+        backend:
+          service:
+            name: user-javaservice
+            port: 
+                number: 80
