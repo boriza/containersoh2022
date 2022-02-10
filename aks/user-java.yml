@@ -15,6 +15,10 @@ spec:
     spec:
       containers:
       - name: user-javaapp
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         image: registryouw8848.azurecr.io/user-java:1.0
         ports:
         - containerPort: 80

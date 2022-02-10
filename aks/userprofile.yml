@@ -15,6 +15,10 @@ spec:
     spec:
       containers:
       - name: userprofileapp
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         image: registryouw8848.azurecr.io/userprofile:1.0
         ports:
         - containerPort: 80
