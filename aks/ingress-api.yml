@@ -38,3 +38,10 @@ spec:
             name: user-javaservice
             port: 
                 number: 80
+      - path: "/api/insurance"
+        pathType: Prefix
+        backend:
+          service:
+            name: insurance
+            port: 
+                number: 80
