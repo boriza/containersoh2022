@@ -18,9 +18,6 @@ spec:
       - image: "registryouw8848.azurecr.io/insurance:1.0"
         imagePullPolicy: Always
         name: insurance
-        resources:
-              limits:
-                memory: 2G
         ports:
         - containerPort: 8081
           name: http
