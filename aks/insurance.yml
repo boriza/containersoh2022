@@ -25,6 +25,8 @@ spec:
         - containerPort: 8081
           name: http
           protocol: TCP
+      nodeSelector:
+        agentpool: insurance
 ---
 apiVersion: v1
 kind: Service
@@ -39,3 +41,4 @@ spec:
     name: insurance-http
     port: 80
     targetPort: 8081
+  
