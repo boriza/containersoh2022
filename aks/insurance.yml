@@ -20,7 +20,7 @@ spec:
         name: insurance
         resources:
               limits:
-                memory: "128Mi"
+                memory: "2Gi"
                 cpu: "500m"
         ports:
         - containerPort: 8081
