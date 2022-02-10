@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: insurance-deployment
-  namespace: api
   labels:
     deploy: insurance
 spec:
@@ -19,6 +18,10 @@ spec:
       - image: "registryouw8848.azurecr.io/insurance:1.0"
         imagePullPolicy: Always
         name: insurance
+        resources:
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
         ports:
         - containerPort: 8081
           name: http
@@ -28,6 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: insurance
+  namespace: api
 spec:
   type: ClusterIP
   selector:
